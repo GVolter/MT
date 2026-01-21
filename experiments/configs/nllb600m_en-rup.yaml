@@ -1,0 +1,34 @@
+# NLLB-200 600M fine-tuning config: English→Aromanian (en→rup)
+
+model:
+  type: nllb_200_600m
+  pretrained_name: facebook/nllb-200-distilled-600M
+  src_lang: eng_Latn
+  tgt_lang: rup_Latn
+
+training:
+  data_dir: <PATH_TO_TRAIN_DATA>
+  train_src: train.en
+  train_tgt: train.rup
+  valid_src: valid.en
+  valid_tgt: valid.rup
+  terminology_dict: <PATH_TO_DICTIONARY_FILE>  # private, not redistributed
+  max_steps: 100000
+  batch_size: 32
+  lr: 3e-5
+  warmup_steps: 1000
+  save_dir: experiments/runs/nllb600m_en-rup
+
+terminology:
+  use_constraints: true
+  constraint_method: constraint_decoding  # or lexicon_biasing
+  max_terms_per_sentence: 10
+
+evaluation:
+  test_src: test.en
+  test_tgt: test.rup
+  metrics:
+    - bleu
+    - chrfpp
+    - bertscore
+    - comet

@@ -1,0 +1,39 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Data (keep configs/scripts, ignore actual corpora)
+/data/raw/
+/data/processed/
+/terminology/resources/**/*.xls
+/terminology/resources/**/*.xlsx
+
+# Hugging Face & COMET caches (user-local, huge)
+/.cache/
+/hf_cache/
+
+# Model checkpoints and runs
+/models/
+/experiments/runs/
+
+# Individual large model weights
+model.safetensors
+
+# Logs and temp
+logs/
+*.log
+.tmp/
+*.tmp
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
