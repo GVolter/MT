@@ -8,25 +8,23 @@ model:
 
 training:
   data_dir: data/processed/ro-rup
-  train_src: train.ro
+  train_src: train.tla.ro
   train_tgt: train.rup
-  valid_src: valid.ro
+  valid_src: valid.tla.ro
   valid_tgt: valid.rup
-  terminology_dict: terminology/resources/ro-rup/papahagi_dict.tsv  # private, not redistributed
-  max_steps: 100000
+  terminology_dict: terminology/resources/ro-rup/papahagi_dict.tsv  
+  max_steps: 100
   batch_size: 32
   lr: 3e-5
-  warmup_steps: 1000
-  save_dir: experiments/runs/nllb600m_ro-rup
+  warmup_steps: 100
+  save_dir: experiments/runs/nllb600m_ro-rup-tla
 
 terminology:
   use_constraints: true
-  constraint_method: constraint_decoding  # or lexicon_biasing
+  constraint_method: constraint_decoding 
   max_terms_per_sentence: 10
 
 evaluation:
-  test_src: test.ro
-  test_tgt: test.rup
   metrics:
     - bleu
     - chrfpp

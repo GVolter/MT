@@ -8,3 +8,4 @@ sacrebleu
 bert-score
 unbabel-comet
 accelerate>=0.26.0
+ahocorasick

@@ -92,7 +92,6 @@ def main():
     data_dir = Path(train_cfg["data_dir"])
     save_dir = Path(train_cfg["save_dir"])
 
-    # Try recommended regex fix; fall back if incompatible
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_cfg["pretrained_name"], fix_mistral_regex=True)
     except TypeError:
@@ -100,7 +99,6 @@ def main():
         tokenizer = AutoTokenizer.from_pretrained(model_cfg["pretrained_name"])
     model = AutoModelForSeq2SeqLM.from_pretrained(model_cfg["pretrained_name"])
 
-    # Device selection / logging
     if torch.cuda.is_available() and not args.no_gpu:
         n_gpus = torch.cuda.device_count()
         print(f"Using CUDA with {n_gpus} GPU(s); primary device: {torch.cuda.get_device_name(0)}")
@@ -138,7 +136,6 @@ def main():
 
     data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
 
-    # Allow simple CLI overrides for experimentation
     batch_size = args.batch_size if args.batch_size is not None else train_cfg.get("batch_size", 4)
     max_steps = args.max_steps if args.max_steps is not None else train_cfg.get("max_steps", 100000)
 

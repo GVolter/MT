@@ -10,7 +10,7 @@ def normalize_split(name: str) -> str:
         return "valid"
     if name in {"train", "training"}:
         return "train"
-    if name in {"test", "testing"}:
+    if name in {"n/a", "test"}:
         return "test"
     return name
 
@@ -25,14 +25,11 @@ def preprocess_corpus(input_csv: Path, output_dir: Path, target_variant: str = "
     if missing:
         raise ValueError(f"Missing expected columns in CSV: {missing}")
 
-    # Drop rows with missing source/target
     df = df.dropna(subset=["ron", target_variant, "split"])
 
-    # Normalize split labels once
     df["split"] = df["split"].apply(normalize_split)
 
     for split_name, split_df in df.groupby("split"):
-        # split_name is already normalized here (e.g. "train", "valid", "test")
         src_path = output_dir / f"{split_name}.ro"
         tgt_path = output_dir / f"{split_name}.rup"
 

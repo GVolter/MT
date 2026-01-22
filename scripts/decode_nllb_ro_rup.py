@@ -27,7 +27,6 @@ def main():
 
     args = parser.parse_args()
 
-    # Try recommended regex fix; fall back if incompatible with this tokenizer backend
     try:
         tokenizer = AutoTokenizer.from_pretrained(str(args.model_dir), fix_mistral_regex=True)
     except TypeError:
@@ -36,7 +35,6 @@ def main():
 
     model = AutoModelForSeq2SeqLM.from_pretrained(str(args.model_dir))
 
-    # Device setup
     if torch.cuda.is_available():
         device = torch.device("cuda")
         print(f"Decoding on GPU: {torch.cuda.get_device_name(0)}")
@@ -62,12 +60,27 @@ def main():
             batch = src_lines[i : i + batch_size]
             inputs = tokenizer(batch, return_tensors="pt", truncation=True, padding=True)
             inputs = {k: v.to(device) for k, v in inputs.items()}
+
+            forced_bos_token_id = None
+            if hasattr(tokenizer, "lang_code_to_id") and args.tgt_lang in tokenizer.lang_code_to_id:
+                forced_bos_token_id = tokenizer.lang_code_to_id[args.tgt_lang]
+            elif hasattr(tokenizer, "get_lang_id"):
+                forced_bos_token_id = tokenizer.get_lang_id(args.tgt_lang)
+            else:
+                forced_bos_token_id = tokenizer.convert_tokens_to_ids(args.tgt_lang)
+
+            if forced_bos_token_id is None:
+                raise ValueError(f"Could not resolve forced_bos_token_id for tgt_lang={args.tgt_lang}")
+
             generated_tokens = model.generate(
                 **inputs,
                 max_length=args.max_length,
+                forced_bos_token_id=forced_bos_token_id,
             )
+
             decoded_batch = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
             outputs.extend(decoded_batch)
+
 
     save_lines(outputs, args.out)
 

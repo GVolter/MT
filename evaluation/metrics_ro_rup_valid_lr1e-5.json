@@ -1,0 +1,17 @@
+{
+  "paths": {
+    "src": "data/processed/ro-rup/valid.ro",
+    "ref": "data/processed/ro-rup/valid.rup",
+    "hyp": "experiments/runs/nllb600m_ro-rup-lr1e-5/valid.hyp.rup"
+  },
+  "sacrebleu_raw": "[\n{\n \"name\": \"BLEU\",\n \"score\": 2.5,\n \"signature\": \"nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0\",\n \"verbose_score\": \"21.0/6.0/1.7/0.7 (BP = 0.716 ratio = 0.750 hyp_len = 27015 ref_len = 36038)\",\n \"nrefs\": \"1\",\n \"case\": \"mixed\",\n \"eff\": \"no\",\n \"tok\": \"13a\",\n \"smooth\": \"exp\",\n \"version\": \"2.6.0\"\n},\n{\n \"name\": \"chrF2\",\n \"score\": 14.1,\n \"signature\": \"nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0\",\n \"nrefs\": \"1\",\n \"case\": \"mixed\",\n \"eff\": \"yes\",\n \"nc\": \"6\",\n \"nw\": \"0\",\n \"space\": \"no\",\n \"version\": \"2.6.0\"\n}\n]",
+  "bertscore": {
+    "P": 0.6218021512031555,
+    "R": 0.6224623322486877,
+    "F1": 0.6212043166160583
+  },
+  "comet": {
+    "model": "wmt20-comet-da",
+    "system_score": -1.076796152209357
+  }
+}
